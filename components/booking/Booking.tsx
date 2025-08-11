@@ -43,8 +43,8 @@ export const Booking = () => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center justify-between pt-20 h-[calc(100vh-100px)]">
-      <div className="overflow-y-auto h-full w-full flex justify-center">
+    <div className="w-full flex flex-col items-center justify-between pt-16 h-[calc(100vh-100px)]">
+      <div className="overflow-y-auto h-full w-full flex justify-center pt-4">
         {step === 0 && (
           <ContactInformation
             firstName={firstName}
@@ -85,7 +85,7 @@ export const Booking = () => {
         )}
       </div>
       {step < 4 ? (
-        <div className="flex flex-row gap-4 border-t border-border pt-4 w-full justify-center">
+        <div className="flex flex-row gap-4 border-t border-border pt-4 w-full justify-center mt-4">
           <Button onClick={handleBack} disabled={step === 0} variant="outline">
             Back
           </Button>

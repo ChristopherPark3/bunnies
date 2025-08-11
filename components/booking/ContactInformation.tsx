@@ -107,7 +107,7 @@ export const ContactInformation = ({
             id="lastName"
             type="text"
             placeholder="Enter your last name"
-            value={firstName}
+            value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             className={errors.lastName ? "border-red-500" : ""}
           />
