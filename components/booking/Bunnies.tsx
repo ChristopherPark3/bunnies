@@ -8,7 +8,13 @@ import { Check, Mars, Plus, Venus, X } from "lucide-react";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 
-export const Bunnies = () => {
+export const Bunnies = ({
+  bunnies,
+  setBunnies,
+}: {
+  bunnies: Bunny[];
+  setBunnies: (bunnies: Bunny[]) => void;
+}) => {
   const [showAddNewBunny, setShowAddNewBunny] = useState(false);
   const [bunnyToAdd, setBunnyToAdd] = useState<Bunny>({
     name: "",
@@ -16,20 +22,6 @@ export const Bunnies = () => {
     isSpayed: false,
     isMale: true,
   });
-  const [bunnies, setBunnies] = useState<Bunny[]>([
-    {
-      name: "Bunny 1",
-      isVaccinated: true,
-      isSpayed: true,
-      isMale: true,
-    },
-    {
-      name: "Bunny 2",
-      isVaccinated: false,
-      isSpayed: false,
-      isMale: false,
-    },
-  ]);
 
   const [editingBunny, setEditingBunny] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Bunny>({
@@ -88,7 +80,13 @@ export const Bunnies = () => {
 
   return (
     <div className="flex flex-col gap-6 w-full max-w-[800px] px-4">
-      <h1 className="text-3xl font-bold text-gray-800">How many bunnies?</h1>
+      <div className="flex flex-col">
+        <h1 className="text-3xl font-bold text-gray-800">How many bunnies?</h1>
+        <p className="text-sm text-gray-500">
+          Just looking to get a little more information about the bunnies
+          you&apos;re bringing!
+        </p>
+      </div>
 
       {/* Display existing bunnies */}
       <div className="space-y-4">
@@ -112,9 +110,9 @@ export const Bunnies = () => {
                   <div className="flex items-center gap-2">
                     <p className="text-lg font-medium">{bunny.name}</p>
                     {bunny.isMale ? (
-                      <Mars className="text-sky-400 size-5" />
+                      <Mars className="text-sky-400 size-4" />
                     ) : (
-                      <Venus className="text-rose-400 size-5" />
+                      <Venus className="text-rose-400 size-4" />
                     )}
                   </div>
                   <div className="flex flex-col justify-center gap-1">
@@ -164,13 +162,19 @@ export const Bunnies = () => {
       </div>
 
       {/* Add New Bunny Form */}
-      <Button
-        onClick={() => setShowAddNewBunny(true)}
-        className="w-fit flex flex-row items-center gap-2 bg-sage text-white hover:bg-sage/80"
-      >
-        <Plus />
-        <p>Add a bunny</p>
-      </Button>
+      <div className="flex items-center gap-2">
+        <Button
+          onClick={() => setShowAddNewBunny(true)}
+          className="w-fit flex flex-row items-center gap-2 bg-sage text-white hover:bg-sage/80"
+          disabled={bunnies.length >= 3}
+        >
+          <Plus />
+          <p>Add a bunny</p>
+        </Button>
+        <p className="text-xs text-gray-500">
+          {bunnies.length >= 3 ? "Limit of 3 bunnies per booking" : ""}
+        </p>
+      </div>
       <AddNewBunnyModal
         showModal={showAddNewBunny}
         setShowModal={setShowAddNewBunny}

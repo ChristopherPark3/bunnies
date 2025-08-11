@@ -14,9 +14,11 @@ import { useState } from "react";
 import { Bunnies } from "./Bunnies";
 import { Schedule } from "./Schedule";
 import { Button } from "../ui/button";
+import { Bunny } from "@/lib/types";
 
 export const Booking = () => {
   const [step, setStep] = useState(0);
+  const [bunnies, setBunnies] = useState<Bunny[]>([]);
 
   const handleNext = () => {
     setStep(step + 1);
@@ -28,7 +30,7 @@ export const Booking = () => {
   return (
     <div className="w-full flex flex-col items-center justify-between pt-20 h-[calc(100vh-100px)]">
       <div className="overflow-y-auto h-full w-full flex justify-center">
-        {step === 0 && <Bunnies />}
+        {step === 0 && <Bunnies bunnies={bunnies} setBunnies={setBunnies} />}
         {step === 1 && <Schedule />}
       </div>
       <div className="flex flex-row gap-4 border-t border-border pt-4 w-full justify-center">

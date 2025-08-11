@@ -195,7 +195,7 @@ export const AddNewBunnyModal = ({
 
         {/* Picture Section */}
         <div className="flex flex-col gap-3">
-          <Label>Photo</Label>
+          <Label>{hasPicture ? "Current photo" : "Upload a photo"}</Label>
 
           {/* Current Picture Display */}
           {hasPicture && (
