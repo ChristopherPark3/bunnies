@@ -5,12 +5,10 @@ import { useState } from "react";
 import { AddNewBunny } from "./AddNewBunny";
 import { Button } from "../ui/button";
 import { AddNewBunnyModal } from "./AddNewBunnyModal";
+import { Check, Mars, Plus, Venus, X } from "lucide-react";
+import { Badge } from "../ui/badge";
 
-interface BunniesProps {
-  onNext: () => void;
-}
-
-export const Bunnies = ({ onNext }: BunniesProps) => {
+export const Bunnies = () => {
   const [showAddNewBunny, setShowAddNewBunny] = useState(false);
   const [bunnyToAdd, setBunnyToAdd] = useState<Bunny>({
     name: "",
@@ -90,39 +88,77 @@ export const Bunnies = ({ onNext }: BunniesProps) => {
 
   return (
     <div className="flex flex-col gap-6 w-full max-w-[800px]">
-      <h1 className="text-3xl font-bold text-gray-800">Your Bunnies</h1>
+      <h1 className="text-3xl font-bold text-gray-800">How many bunnies?</h1>
 
       {/* Display existing bunnies */}
       <div className="space-y-4">
         {bunnies.map((bunny, index) => (
-          <div key={index} className="p-4 border rounded-lg">
-            <h3 className="font-semibold">{bunny.name}</h3>
-            <p>Vaccinated: {bunny.isVaccinated ? "Yes" : "No"}</p>
-            <p>Spayed/Neutered: {bunny.isSpayed ? "Yes" : "No"}</p>
-            <p>Gender: {bunny.isMale ? "Male" : "Female"}</p>
-            <div className="flex gap-2 mt-3">
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={() => startEditing(bunny, index)}
-              >
-                Edit
-              </Button>
-              <Button 
-                variant="destructive" 
-                size="sm"
-                onClick={() => deleteBunny(index)}
-              >
-                Delete
-              </Button>
+          <div key={index} className="">
+            <div className="flex items-center justify-between">
+              <div className="flex items-start gap-2">
+                {/* Dummy picture for now */}
+                <div className="size-24 bg-gray-200 rounded-lg" />
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <p className="text-lg font-medium">{bunny.name}</p>
+                    {bunny.isMale ? (
+                      <Mars className="text-sky-400 size-5" />
+                    ) : (
+                      <Venus className="text-rose-400 size-5" />
+                    )}
+                  </div>
+                  <div className="flex flex-col justify-center gap-1">
+                    <Badge className="flex items-center gap-1 bg-gray-100 text-sm font-normal text-gray-600">
+                      <p>
+                        {bunny.isVaccinated ? (
+                          <Check className="text-green-500 size-4" />
+                        ) : (
+                          <X className="text-red-500 size-4" />
+                        )}
+                      </p>
+                      <p className="text-sm">Vaccinated</p>
+                    </Badge>
+                    <Badge className="flex items-center gap-1 bg-gray-100 text-sm font-normal text-gray-600">
+                      <p className="text-sm">
+                        {bunny.isSpayed ? (
+                          <Check className="text-green-500 size-4" />
+                        ) : (
+                          <X className="text-red-500 size-4" />
+                        )}
+                      </p>
+                      <p className="text-sm">Spayed</p>
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => startEditing(bunny, index)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => deleteBunny(index)}
+                  className="bg-red-500 text-white hover:bg-red-600"
+                >
+                  Remove
+                </Button>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
       {/* Add New Bunny Form */}
-      <Button onClick={() => setShowAddNewBunny(true)} className="w-fit">
-        Add another bunny
+      <Button
+        onClick={() => setShowAddNewBunny(true)}
+        className="w-fit flex flex-row items-center gap-2 bg-sage text-white hover:bg-sage/80"
+      >
+        <Plus />
+        <p>Add a bunny</p>
       </Button>
       <AddNewBunnyModal
         showModal={showAddNewBunny}
@@ -134,7 +170,6 @@ export const Bunnies = ({ onNext }: BunniesProps) => {
         isEditing={isEditing}
         editingBunnyIndex={editingBunny}
       />
-      <Button onClick={onNext}>Next</Button>
     </div>
   );
 };

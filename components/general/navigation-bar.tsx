@@ -4,7 +4,11 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const NavigationBar = () => {
+interface NavigationBarProps {
+  isBooking?: boolean;
+}
+
+export const NavigationBar = ({ isBooking }: NavigationBarProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
@@ -27,28 +31,28 @@ export const NavigationBar = () => {
           <div className="flex items-center">
             <h1 className="text-xl font-bold text-sage">Bunny Boarding</h1>
           </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="flex items-center space-x-8">
-              {navItems.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => scrollToSection(item.href)}
-                  className="text-foreground hover:text-sage cursor-pointer transition-colors duration-200 hover:underline underline-offset-2"
+          {!isBooking && (
+            <div className="hidden md:block">
+              <div className="flex items-center space-x-8">
+                {navItems.map((item) => (
+                  <button
+                    key={item.name}
+                    onClick={() => scrollToSection(item.href)}
+                    className="text-foreground hover:text-sage cursor-pointer transition-colors duration-200 hover:underline underline-offset-2"
+                  >
+                    {item.name}
+                  </button>
+                ))}
+                <Button
+                  size="sm"
+                  onClick={() => scrollToSection("#contact")}
+                  className="cursor-pointer"
                 >
-                  {item.name}
-                </button>
-              ))}
-              <Button
-                size="sm"
-                onClick={() => scrollToSection("#contact")}
-                className="cursor-pointer"
-              >
-                Book Now
-              </Button>
+                  Book Now
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Mobile menu button */}
           <div className="md:hidden">

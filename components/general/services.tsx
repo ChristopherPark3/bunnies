@@ -9,16 +9,14 @@ export const Services = () => {
   const [price, setPrice] = useState(30);
   const [count, setCount] = useState(1);
 
-  const calculatePrice = () => {
-    let calculatedPrice = 30 * (count + (count === 1 ? 0 : 1));
-    if (count > 1) {
-      calculatedPrice = calculatedPrice * 0.5; // 50% discount for multiple bunnies
-    }
-    setPrice(calculatedPrice);
-  };
-
   useEffect(() => {
-    calculatePrice();
+    const calculatePrice = () => {
+      if (count === 2) return 45;
+      if (count === 3) return 55;
+
+      return 30;
+    };
+    setPrice(calculatePrice());
   }, [count]);
 
   const incrementCount = () => {
@@ -136,7 +134,7 @@ export const Services = () => {
                         variant="outline"
                         size="sm"
                         onClick={incrementCount}
-                        disabled={count >= 5}
+                        disabled={count >= 3}
                         className="w-8 h-8 p-0"
                       >
                         +
@@ -149,7 +147,7 @@ export const Services = () => {
                   <p className="text-sm text-muted-foreground">per day</p>
                   {count > 1 && (
                     <p className="text-xs text-green-600 font-medium">
-                      50% discount applied
+                      Discount applied
                     </p>
                   )}
                 </div>
