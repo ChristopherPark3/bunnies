@@ -1,6 +1,27 @@
 import { Checkbox } from "../ui/checkbox";
 
-export const AdditionalServices = () => {
+interface AdditionalServices {
+  sanitaryShaving: boolean;
+  nailTrim: boolean;
+  medication: boolean;
+}
+
+interface AdditionalServicesProps {
+  additionalServices: AdditionalServices;
+  setAdditionalServices: (services: AdditionalServices) => void;
+}
+
+export const AdditionalServices = ({ 
+  additionalServices, 
+  setAdditionalServices 
+}: AdditionalServicesProps) => {
+  const handleServiceChange = (service: keyof AdditionalServices, checked: boolean) => {
+    setAdditionalServices({
+      ...additionalServices,
+      [service]: checked,
+    });
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col items-center text-center gap-2">
@@ -17,11 +38,23 @@ export const AdditionalServices = () => {
           <h2 className="text-lg font-bold">Grooming</h2>
           <div className="space-y-2">
             <label className="flex items-center gap-2 cursor-pointer">
-              <Checkbox className="rounded" />
+              <Checkbox 
+                className="rounded" 
+                checked={additionalServices.sanitaryShaving}
+                onCheckedChange={(checked) => 
+                  handleServiceChange('sanitaryShaving', checked as boolean)
+                }
+              />
               <span className="text-sm">Sanitary shaving/deshedding - $20</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
-              <Checkbox className="rounded" />
+              <Checkbox 
+                className="rounded" 
+                checked={additionalServices.nailTrim}
+                onCheckedChange={(checked) => 
+                  handleServiceChange('nailTrim', checked as boolean)
+                }
+              />
               <span className="text-sm">Nail trim - $10</span>
             </label>
           </div>
@@ -30,7 +63,13 @@ export const AdditionalServices = () => {
           <h2 className="text-lg font-bold">Medical Care</h2>
           <div className="space-y-2">
             <label className="flex items-center gap-2 cursor-pointer">
-              <Checkbox className="rounded" />
+              <Checkbox 
+                className="rounded" 
+                checked={additionalServices.medication}
+                onCheckedChange={(checked) => 
+                  handleServiceChange('medication', checked as boolean)
+                }
+              />
               <span className="text-sm">
                 Medication administration - $5/day
               </span>

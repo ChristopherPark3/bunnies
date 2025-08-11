@@ -13,7 +13,15 @@ import {
   User,
   Mail,
   Phone,
+  Scissors,
+  Pill,
 } from "lucide-react";
+
+interface AdditionalServices {
+  sanitaryShaving: boolean;
+  nailTrim: boolean;
+  medication: boolean;
+}
 
 interface ReviewProps {
   bunnies: Bunny[];
@@ -22,9 +30,11 @@ interface ReviewProps {
   lastName: string;
   email: string;
   phoneNumber?: string;
+  additionalServices: AdditionalServices;
   onEditBunnies: () => void;
   onEditSchedule: () => void;
   onEditContact: () => void;
+  onEditAdditionalServices: () => void;
   onSubmit: () => void;
 }
 
@@ -35,9 +45,11 @@ export const Review = ({
   lastName,
   email,
   phoneNumber,
+  additionalServices,
   onEditBunnies,
   onEditSchedule,
   onEditContact,
+  onEditAdditionalServices,
   onSubmit,
 }: ReviewProps) => {
   const formatDate = (date: Date) => {
@@ -55,6 +67,25 @@ export const Review = ({
       dateRange.to.getTime() - dateRange.from.getTime()
     );
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include both start and end dates
+  };
+
+  const calculateAdditionalServicesCost = () => {
+    let total = 0;
+    if (additionalServices.sanitaryShaving) total += 20;
+    if (additionalServices.nailTrim) total += 10;
+    if (additionalServices.medication) {
+      const days = getTotalDays();
+      total += days * 5;
+    }
+    return total;
+  };
+
+  const hasAdditionalServices = () => {
+    return (
+      additionalServices.sanitaryShaving ||
+      additionalServices.nailTrim ||
+      additionalServices.medication
+    );
   };
 
   return (
@@ -197,23 +228,67 @@ export const Review = ({
         )}
       </div>
 
-      {/* Submit Button */}
-      <div className="flex justify-center pt-4">
-        <Button
-          onClick={onSubmit}
-          className="w-full max-w-md bg-sage text-white hover:bg-sage/80 text-lg py-3"
-          disabled={!dateRange?.from || !dateRange?.to || bunnies.length === 0}
-        >
-          Confirm Booking
-        </Button>
+      {/* Additional Services */}
+      <div className="bg-white rounded-lg border p-6 shadow-sm">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+            <Scissors className="size-5" />
+            Additional Services
+          </h2>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onEditAdditionalServices}
+          >
+            Edit
+          </Button>
+        </div>
+        {hasAdditionalServices() ? (
+          <div className="space-y-3">
+            {additionalServices.sanitaryShaving && (
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <Scissors className="size-4 text-sage" />
+                  <span className="text-sm">Sanitary shaving/deshedding</span>
+                </div>
+                <span className="font-medium text-sage">$20</span>
+              </div>
+            )}
+            {additionalServices.nailTrim && (
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <Scissors className="size-4 text-sage" />
+                  <span className="text-sm">Nail trim</span>
+                </div>
+                <span className="font-medium text-sage">$10</span>
+              </div>
+            )}
+            {additionalServices.medication && (
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <Pill className="size-4 text-sage" />
+                  <span className="text-sm">
+                    Medication administration ({getTotalDays()} days)
+                  </span>
+                </div>
+                <span className="font-medium text-sage">
+                  ${getTotalDays() * 5}
+                </span>
+              </div>
+            )}
+            <div className="flex items-center justify-between pt-3 border-t">
+              <span className="font-medium text-gray-700">
+                Additional Services Total
+              </span>
+              <span className="font-bold text-lg text-sage">
+                ${calculateAdditionalServicesCost()}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <p className="text-gray-500">No additional services selected</p>
+        )}
       </div>
-
-      {/* Validation Message */}
-      {(!dateRange?.from || !dateRange?.to || bunnies.length === 0) && (
-        <p className="text-sm text-red-500 text-center">
-          Please complete all sections before confirming your booking.
-        </p>
-      )}
     </div>
   );
 };
