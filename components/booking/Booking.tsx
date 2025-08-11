@@ -18,6 +18,7 @@ import { Bunny } from "@/lib/types";
 import { Review } from "./Review";
 import { DateRange } from "react-day-picker";
 import { ContactInformation } from "./ContactInformation";
+import { AdditionalServices } from "./AdditionalServices";
 
 export const Booking = () => {
   const [step, setStep] = useState(0);
@@ -54,7 +55,8 @@ export const Booking = () => {
         {step === 2 && (
           <Schedule setDateRange={setDateRange} dateRange={dateRange} />
         )}
-        {step === 3 && (
+        {step === 3 && <AdditionalServices />}
+        {step === 4 && (
           <Review
             bunnies={bunnies}
             dateRange={dateRange}
@@ -75,7 +77,7 @@ export const Booking = () => {
         </Button>
         <Button
           onClick={handleNext}
-          disabled={step === 3}
+          disabled={step === 4}
           className="bg-sage text-white hover:bg-sage/80"
         >
           Next

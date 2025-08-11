@@ -1,0 +1,43 @@
+import { Checkbox } from "../ui/checkbox";
+
+export const AdditionalServices = () => {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col items-center text-center gap-2">
+        <h1 className="text-3xl font-bold text-gray-800 select-none">
+          Additional Services
+        </h1>
+        <p className="text-sm text-gray-500 select-none">
+          We offer a variety of additional services to make your bunny&apos;s
+          stay more comfortable.
+        </p>
+      </div>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h2 className="text-lg font-bold">Grooming</h2>
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <Checkbox className="rounded" />
+              <span className="text-sm">Sanitary shaving/deshedding - $20</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <Checkbox className="rounded" />
+              <span className="text-sm">Nail trim - $10</span>
+            </label>
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <h2 className="text-lg font-bold">Medical Care</h2>
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <Checkbox className="rounded" />
+              <span className="text-sm">
+                Medication administration - $5/day
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
