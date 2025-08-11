@@ -81,15 +81,17 @@ export const Bunnies = ({
   return (
     <div className="flex flex-col gap-6 w-full max-w-[800px] px-4">
       <div className="flex flex-col">
-        <h1 className="text-3xl font-bold text-gray-800">How many bunnies?</h1>
-        <p className="text-sm text-gray-500">
+        <h1 className="text-3xl font-bold text-gray-800 text-center">
+          How many bunnies?
+        </h1>
+        <p className="text-sm text-gray-500 text-center">
           Just looking to get a little more information about the bunnies
           you&apos;re bringing!
         </p>
       </div>
 
       {/* Display existing bunnies */}
-      <div className="space-y-4">
+      <div className="space-y-4 mt-8">
         {bunnies.map((bunny, index) => (
           <div key={index} className="">
             <div className="flex items-center justify-between">
@@ -162,7 +164,7 @@ export const Bunnies = ({
       </div>
 
       {/* Add New Bunny Form */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-center gap-2">
         <Button
           onClick={() => setShowAddNewBunny(true)}
           className="w-fit flex flex-row items-center gap-2 bg-sage text-white hover:bg-sage/80"

@@ -113,14 +113,14 @@ export const AddNewBunnyModal = ({
 
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
+      <DialogContent className="max-w-md p-0">
+        <DialogHeader className="px-4 pt-4">
           <DialogTitle className="text-start">
             {isEditing ? `Edit ${bunnyToAdd.name}` : "Add a new bunny"}
           </DialogTitle>
-        </DialogHeader>
+        </DialogHeader> 
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 px-4">
           <Label>Name</Label>
           <Input
             placeholder="Bunny Name"
@@ -134,8 +134,8 @@ export const AddNewBunnyModal = ({
           />
         </div>
 
-        <div className="flex flex-row gap-4">
-          <div className="flex flex-col gap-1">
+        <div className="flex flex-row gap-4 px-4">
+          <div className="flex flex-col gap-2">
             <Label>Is vaccinated?</Label>
             <Checkbox
               checked={bunnyToAdd?.isVaccinated}
@@ -147,7 +147,7 @@ export const AddNewBunnyModal = ({
               }
             />
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             <Label>Is spayed/neutered?</Label>
             <Checkbox
               checked={bunnyToAdd?.isSpayed}
@@ -161,7 +161,7 @@ export const AddNewBunnyModal = ({
           </div>
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2 px-4">
           <Label>Gender</Label>
           <div className="flex gap-4">
             <div className="flex items-center space-x-2">
@@ -193,9 +193,16 @@ export const AddNewBunnyModal = ({
           </div>
         </div>
 
+        <hr className="my-1" />
+
         {/* Picture Section */}
-        <div className="flex flex-col gap-3">
-          <Label>{hasPicture ? "Current photo" : "Upload a photo"}</Label>
+        <div className="flex flex-col gap-3 px-4">
+          <Label className="gap-1">
+            <p className="text-sm">
+              {hasPicture ? "Current photo" : "Upload a photo"}
+            </p>
+            <p className="text-xs text-gray-500">(optional)</p>
+          </Label>
 
           {/* Current Picture Display */}
           {hasPicture && (
@@ -229,7 +236,7 @@ export const AddNewBunnyModal = ({
                 maxFiles={1}
                 maxSize={5 * 1024 * 1024} // 5MB limit
                 onDrop={handleFileDrop}
-                className="border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors"
+                className="border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors rounded-xl h-24"
               >
                 <div className="flex flex-col items-center justify-center p-6 text-center">
                   <ImageIcon className="w-8 h-8 text-gray-400 mb-2" />
@@ -243,7 +250,9 @@ export const AddNewBunnyModal = ({
           )}
         </div>
 
-        <DialogFooter>
+        <hr className="mt-1" />
+
+        <DialogFooter className="px-4 pb-4">
           <Button variant="outline" onClick={handleCancel}>
             Cancel
           </Button>
