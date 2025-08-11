@@ -2,11 +2,11 @@
 
 import { Bunny } from "@/lib/types";
 import { useState } from "react";
-import { AddNewBunny } from "./AddNewBunny";
 import { Button } from "../ui/button";
 import { AddNewBunnyModal } from "./AddNewBunnyModal";
 import { Check, Mars, Plus, Venus, X } from "lucide-react";
 import { Badge } from "../ui/badge";
+import Image from "next/image";
 
 export const Bunnies = () => {
   const [showAddNewBunny, setShowAddNewBunny] = useState(false);
@@ -87,7 +87,7 @@ export const Bunnies = () => {
   const isEditing = editingBunny !== null;
 
   return (
-    <div className="flex flex-col gap-6 w-full max-w-[800px]">
+    <div className="flex flex-col gap-6 w-full max-w-[800px] px-4">
       <h1 className="text-3xl font-bold text-gray-800">How many bunnies?</h1>
 
       {/* Display existing bunnies */}
@@ -95,9 +95,19 @@ export const Bunnies = () => {
         {bunnies.map((bunny, index) => (
           <div key={index} className="">
             <div className="flex items-center justify-between">
-              <div className="flex items-start gap-2">
-                {/* Dummy picture for now */}
-                <div className="size-24 bg-gray-200 rounded-lg" />
+              <div className="flex items-start gap-4">
+                {/* Display bunny picture or placeholder */}
+                {bunny.picture ? (
+                  <img
+                    src={bunny.picture}
+                    alt={`${bunny.name}`}
+                    className="size-24 object-cover rounded-lg"
+                  />
+                ) : (
+                  <div className="size-24 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <span className="text-gray-400 text-sm">No photo</span>
+                  </div>
+                )}
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2">
                     <p className="text-lg font-medium">{bunny.name}</p>
@@ -148,6 +158,7 @@ export const Bunnies = () => {
                 </Button>
               </div>
             </div>
+            <hr className="mt-4" />
           </div>
         ))}
       </div>
