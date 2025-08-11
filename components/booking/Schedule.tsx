@@ -13,11 +13,11 @@ interface ScheduleProps {
 export const Schedule = ({ dateRange, setDateRange }: ScheduleProps) => {
   return (
     <div className="flex flex-col h-full w-fit items-center gap-10">
-      <div className="flex flex-col items-center">
-        <h1 className="text-3xl font-bold text-gray-800">
+      <div className="flex flex-col items-center gap-2">
+        <h1 className="text-3xl font-bold text-gray-800 select-none">
           When are you coming?
         </h1>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 select-none">
           Select the range of dates you will be boarding the bunnies.
         </p>
       </div>

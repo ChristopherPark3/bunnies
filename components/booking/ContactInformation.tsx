@@ -68,11 +68,11 @@ export const ContactInformation = ({
 
   return (
     <div className="flex flex-col h-full w-full max-w-md items-center gap-8">
-      <div className="flex flex-col items-center text-center">
-        <h1 className="text-3xl font-bold text-gray-800">
+      <div className="flex flex-col items-center text-center gap-2">
+        <h1 className="text-3xl font-bold text-gray-800 select-none">
           Contact Information
         </h1>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 select-none">
           Please provide your contact details for the booking.
         </p>
       </div>

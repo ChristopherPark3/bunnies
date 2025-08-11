@@ -80,11 +80,11 @@ export const Bunnies = ({
 
   return (
     <div className="flex flex-col gap-6 w-full max-w-[800px] px-4">
-      <div className="flex flex-col">
-        <h1 className="text-3xl font-bold text-gray-800 text-center">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold text-gray-800 text-center select-none">
           How many bunnies?
         </h1>
-        <p className="text-sm text-gray-500 text-center">
+        <p className="text-sm text-gray-500 text-center select-none">
           Just looking to get a little more information about the bunnies
           you&apos;re bringing!
         </p>

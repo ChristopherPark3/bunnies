@@ -3,11 +3,10 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import bunnies from "@/public/our-buns/billy-belinda-vienna.jpeg";
+import { useRouter } from "next/navigation";
 
 export const Hero = () => {
-  const scrollToContact = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const router = useRouter();
 
   return (
     <section className="relative pt-40 pb-40 flex items-center justify-center overflow-hidden w-full bg-sage/20">
@@ -26,7 +25,9 @@ export const Hero = () => {
             <div className="flex flex-row gap-4 justify-center lg:justify-start">
               <Button
                 size="lg"
-                onClick={scrollToContact}
+                onClick={() => {
+                  router.push("/booking");
+                }}
                 className="text-lg px-8 bg-sage/80 hover:bg-sage/90 cursor-pointer"
               >
                 Book Now

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface NavigationBarProps {
   isBooking?: boolean;
@@ -10,6 +11,7 @@ interface NavigationBarProps {
 
 export const NavigationBar = ({ isBooking }: NavigationBarProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const navItems = [
     { name: "About", href: "#about" },
@@ -29,7 +31,14 @@ export const NavigationBar = ({ isBooking }: NavigationBarProps) => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <h1 className="text-xl font-bold text-sage">Bunny Boarding</h1>
+            <h1
+              className="text-xl font-bold text-sage cursor-pointer"
+              onClick={() => {
+                router.push("/");
+              }}
+            >
+              Bunny Boarding
+            </h1>
           </div>
           {!isBooking && (
             <div className="hidden md:block">
@@ -45,7 +54,9 @@ export const NavigationBar = ({ isBooking }: NavigationBarProps) => {
                 ))}
                 <Button
                   size="sm"
-                  onClick={() => scrollToSection("#contact")}
+                  onClick={() => {
+                    router.push("/booking");
+                  }}
                   className="cursor-pointer"
                 >
                   Book Now
