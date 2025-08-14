@@ -100,9 +100,9 @@ export const Review = ({
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 w-full max-w-[1200px] px-4">
+    <div className="flex flex-col gap-8 w-full px-[10%] lg:px-[20%] pb-4 overflow-y-auto">
       {/* Review Details */}
-      <div className="flex-1">
+      <div className="w-full">
         <div className="flex flex-col items-center text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
             Review Your Booking
@@ -304,65 +304,9 @@ export const Review = ({
         </div>
       </div>
 
-      {/* Total Cost Card - Bottom on small screens, Left on large screens */}
-      <div className="lg:hidden">
+      {/* Total Cost Card - Only at the bottom */}
+      <div className="w-full">
         <div className="bg-white rounded-lg border p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            Total Cost
-          </h2>
-
-          <div className="space-y-3">
-            {/* Base Boarding Cost */}
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">
-                Boarding ({bunnies.length} bunny
-                {bunnies.length !== 1 ? "ies" : ""} × {getTotalDays()} days)
-              </span>
-              <span className="font-medium">
-                ${calculateBaseCost() * bunnies.length}
-              </span>
-            </div>
-
-            {/* Additional Services Breakdown */}
-            {hasAdditionalServices() && (
-              <>
-                {additionalServices.sanitaryShaving && (
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Sanitary shaving</span>
-                    <span className="font-medium">$20</span>
-                  </div>
-                )}
-                {additionalServices.nailTrim && (
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Nail trim</span>
-                    <span className="font-medium">$10</span>
-                  </div>
-                )}
-                {additionalServices.medication && (
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">
-                      Medication ({getTotalDays()} days)
-                    </span>
-                    <span className="font-medium">${getTotalDays() * 5}</span>
-                  </div>
-                )}
-              </>
-            )}
-
-            {/* Total */}
-            <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-              <span className="font-semibold text-lg text-gray-800">Total</span>
-              <span className="font-bold text-2xl text-sage">
-                ${calculateTotalCost()}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Total Cost Card - Left Side on large screens */}
-      <div className="hidden lg:block lg:w-80 lg:flex-shrink-0">
-        <div className="bg-white rounded-lg border p-6 shadow-sm sticky top-4">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
             Total Cost
           </h2>

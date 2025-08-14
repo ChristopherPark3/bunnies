@@ -11,11 +11,14 @@ interface AdditionalServicesProps {
   setAdditionalServices: (services: AdditionalServices) => void;
 }
 
-export const AdditionalServices = ({ 
-  additionalServices, 
-  setAdditionalServices 
+export const AdditionalServices = ({
+  additionalServices,
+  setAdditionalServices,
 }: AdditionalServicesProps) => {
-  const handleServiceChange = (service: keyof AdditionalServices, checked: boolean) => {
+  const handleServiceChange = (
+    service: keyof AdditionalServices,
+    checked: boolean
+  ) => {
     setAdditionalServices({
       ...additionalServices,
       [service]: checked,
@@ -38,24 +41,30 @@ export const AdditionalServices = ({
           <h2 className="text-lg font-bold">Grooming</h2>
           <div className="space-y-2">
             <label className="flex items-center gap-2 cursor-pointer">
-              <Checkbox 
-                className="rounded" 
+              <Checkbox
+                className="rounded"
                 checked={additionalServices.sanitaryShaving}
-                onCheckedChange={(checked) => 
-                  handleServiceChange('sanitaryShaving', checked as boolean)
+                onCheckedChange={(checked) =>
+                  handleServiceChange("sanitaryShaving", checked as boolean)
                 }
               />
-              <span className="text-sm">Sanitary shaving/deshedding - $20</span>
+              <span className="text-sm flex gap-1">
+                <p>Sanitary shaving/deshedding -</p>
+                <p className="font-bold underline">$20</p>
+              </span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
-              <Checkbox 
-                className="rounded" 
+              <Checkbox
+                className="rounded"
                 checked={additionalServices.nailTrim}
-                onCheckedChange={(checked) => 
-                  handleServiceChange('nailTrim', checked as boolean)
+                onCheckedChange={(checked) =>
+                  handleServiceChange("nailTrim", checked as boolean)
                 }
               />
-              <span className="text-sm">Nail trim - $10</span>
+              <span className="text-sm flex gap-1">
+                <p>Nail trim -</p>
+                <p className="font-bold underline">$10</p>
+              </span>
             </label>
           </div>
         </div>
@@ -63,15 +72,16 @@ export const AdditionalServices = ({
           <h2 className="text-lg font-bold">Medical Care</h2>
           <div className="space-y-2">
             <label className="flex items-center gap-2 cursor-pointer">
-              <Checkbox 
-                className="rounded" 
+              <Checkbox
+                className="rounded"
                 checked={additionalServices.medication}
-                onCheckedChange={(checked) => 
-                  handleServiceChange('medication', checked as boolean)
+                onCheckedChange={(checked) =>
+                  handleServiceChange("medication", checked as boolean)
                 }
               />
-              <span className="text-sm">
-                Medication administration - $5/day
+              <span className="text-sm flex gap-1">
+                <p>Medication administration -</p>
+                <p className="font-bold underline">$5/day</p>
               </span>
             </label>
           </div>

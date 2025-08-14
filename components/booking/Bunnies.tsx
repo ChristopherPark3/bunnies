@@ -152,7 +152,7 @@ export const Bunnies = ({
                 <Button
                   size="sm"
                   onClick={() => deleteBunny(index)}
-                  className="bg-red-500 text-white hover:bg-red-600"
+                  className="bg-red-400 text-white hover:bg-red-500"
                 >
                   Remove
                 </Button>

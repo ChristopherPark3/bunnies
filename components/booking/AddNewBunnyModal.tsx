@@ -118,7 +118,7 @@ export const AddNewBunnyModal = ({
           <DialogTitle className="text-start">
             {isEditing ? `Edit ${bunnyToAdd.name}` : "Add a new bunny"}
           </DialogTitle>
-        </DialogHeader> 
+        </DialogHeader>
 
         <div className="flex flex-col gap-1 px-4">
           <Label>Name</Label>
@@ -193,7 +193,9 @@ export const AddNewBunnyModal = ({
           </div>
         </div>
 
-        <hr className="my-1" />
+        <div className="px-4">
+          <hr className="my-1" />
+        </div>
 
         {/* Picture Section */}
         <div className="flex flex-col gap-3 px-4">
@@ -215,11 +217,10 @@ export const AddNewBunnyModal = ({
                 />
                 <Button
                   size="sm"
-                  variant="destructive"
-                  className="absolute -top-2 -right-2 w-6 h-6 p-0 rounded-full shadow-lg"
+                  className="absolute -top-2 -right-2 size-5 p-0 rounded-full shadow-lg bg-red-500 hover:bg-red-400"
                   onClick={uploadedFile ? removePicture : removeExistingPicture}
                 >
-                  <X className="w-3 h-3" />
+                  <X className="size-3" />
                 </Button>
               </div>
             </div>
@@ -250,7 +251,9 @@ export const AddNewBunnyModal = ({
           )}
         </div>
 
-        <hr className="mt-1" />
+        <div className="px-4">
+          <hr className="mt-1" />
+        </div>
 
         <DialogFooter className="px-4 pb-4">
           <Button variant="outline" onClick={handleCancel}>

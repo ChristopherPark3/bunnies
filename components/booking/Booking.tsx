@@ -1,16 +1,6 @@
 "use client";
 
-/**
- * Bunny information
- *   - Name
- *   - Is vaccinated check
- *   - Is spayed/neutred check
- *   - M/F check
- *   - Optional picture upload
- *
- */
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Bunnies } from "./Bunnies";
 import { Schedule } from "./Schedule";
 import { Button } from "../ui/button";
@@ -20,8 +10,12 @@ import { DateRange } from "react-day-picker";
 import { ContactInformation } from "./ContactInformation";
 import { AdditionalServices } from "./AdditionalServices";
 import { useRouter } from "next/navigation";
-import { test } from "@/utils/test";
 
+/**
+ * Root component for the booking process.
+ * 
+ * For now, the booking info is managed manually, but eventually I want to move to zod and RHF.
+ */
 export const Booking = () => {
   const router = useRouter();
 
@@ -37,18 +31,7 @@ export const Booking = () => {
     nailTrim: false,
     medication: false,
   });
-
-  useEffect(() => {
-    (async () => {
-      await test();
-      await fetch("/api/booking", {
-        method: "POST",
-        body: JSON.stringify({
-          firstName: "John",
-        }),
-      });
-    })();
-  });
+  console.log(bunnies);
 
   const handleNext = () => {
     setStep(step + 1);

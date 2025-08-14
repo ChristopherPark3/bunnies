@@ -66,6 +66,27 @@ export const ContactInformation = ({
     }
   };
 
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, ""); // Remove all non-digits
+    if (value.length <= 10) {
+      // Format the phone number
+      let formattedValue = "";
+      if (value.length > 0) {
+        if (value.length <= 3) {
+          formattedValue = `(${value}`;
+        } else if (value.length <= 6) {
+          formattedValue = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+        } else {
+          formattedValue = `(${value.slice(0, 3)}) ${value.slice(
+            3,
+            6
+          )}-${value.slice(6)}`;
+        }
+      }
+      setPhoneNumber(formattedValue);
+    }
+  };
+
   return (
     <div className="flex flex-col h-full w-full max-w-md items-center gap-8">
       <div className="flex flex-col items-center text-center gap-2">
@@ -146,7 +167,7 @@ export const ContactInformation = ({
             type="tel"
             placeholder="Enter your phone number"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={handlePhoneNumberChange}
           />
           <p className="text-xs text-gray-500">
             We&apos;ll only use this to contact you about your booking or in the
