@@ -41,6 +41,12 @@ export const Booking = () => {
   useEffect(() => {
     (async () => {
       await test();
+      await fetch("/api/booking", {
+        method: "POST",
+        body: JSON.stringify({
+          firstName: "John",
+        }),
+      });
     })();
   });
 
