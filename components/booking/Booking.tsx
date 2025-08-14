@@ -10,7 +10,7 @@
  *
  */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Bunnies } from "./Bunnies";
 import { Schedule } from "./Schedule";
 import { Button } from "../ui/button";
@@ -19,8 +19,12 @@ import { Review } from "./Review";
 import { DateRange } from "react-day-picker";
 import { ContactInformation } from "./ContactInformation";
 import { AdditionalServices } from "./AdditionalServices";
+import { useRouter } from "next/navigation";
+import { test } from "@/utils/test";
 
 export const Booking = () => {
+  const router = useRouter();
+
   const [step, setStep] = useState(0);
   const [bunnies, setBunnies] = useState<Bunny[]>([]);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
@@ -34,11 +38,20 @@ export const Booking = () => {
     medication: false,
   });
 
+  useEffect(() => {
+    (async () => {
+      await test();
+    })();
+  });
+
   const handleNext = () => {
     setStep(step + 1);
   };
 
   const handleBack = () => {
+    if (step === 0) {
+      router.push("/");
+    }
     setStep(step - 1);
   };
 
@@ -86,7 +99,7 @@ export const Booking = () => {
       </div>
       {step < 4 ? (
         <div className="flex flex-row gap-4 border-t border-border pt-4 w-full justify-center mt-4">
-          <Button onClick={handleBack} disabled={step === 0} variant="outline">
+          <Button onClick={handleBack} variant="outline">
             Back
           </Button>
           <Button

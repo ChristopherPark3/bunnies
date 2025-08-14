@@ -1,6 +1,11 @@
+"use client";
+
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 export const Contact = () => {
+  const router = useRouter();
   return (
     <section id="contact" className="py-20">
       <div className="container mx-auto px-4">
@@ -15,8 +20,18 @@ export const Contact = () => {
               bunny&apos;s needs.
             </p>
           </div>
+          <div className="flex justify-center">
+            <Button
+              className="bg-sage text-white hover:bg-sage/80 hover:cursor-pointer hover:text-white w-60 h-16 rounded-xl text-2xl"
+              onClick={() => {
+                router.push("/booking");
+              }}
+            >
+              Book now!
+            </Button>
+          </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 w-full ">
+          <div className="grid lg:grid-cols-2 gap-12 w-full mt-12">
             <div className="flex items-center space-x-4">
               <div className="w-10 h-10 bg-sage/10 rounded-full flex items-center justify-center">
                 <Mail className="w-5 h-5 text-sage" />
