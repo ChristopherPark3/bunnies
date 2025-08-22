@@ -10,14 +10,18 @@ import { DateRange } from "react-day-picker";
 import { ContactInformation } from "./ContactInformation";
 import { AdditionalServices } from "./AdditionalServices";
 import { useRouter } from "next/navigation";
+import { useCreateBooking } from "./hooks/useCreateBooking";
+import { Loader2 } from "lucide-react";
 
 /**
  * Root component for the booking process.
- * 
+ *
  * For now, the booking info is managed manually, but eventually I want to move to zod and RHF.
  */
 export const Booking = () => {
   const router = useRouter();
+
+  const { mutateAsync: createBooking, isPending } = useCreateBooking();
 
   const [step, setStep] = useState(0);
   const [bunnies, setBunnies] = useState<Bunny[]>([]);
@@ -31,7 +35,6 @@ export const Booking = () => {
     nailTrim: false,
     medication: false,
   });
-  console.log(bunnies);
 
   const handleNext = () => {
     setStep(step + 1);
@@ -42,6 +45,24 @@ export const Booking = () => {
       router.push("/");
     }
     setStep(step - 1);
+  };
+
+  const handleConfirmBooking = async () => {
+    const response = await createBooking({
+      bunnies,
+      dateRange,
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      additionalServices,
+    });
+
+    console.log(response);
+
+    if (response.status === 200) {
+      router.push("/booking/success");
+    }
   };
 
   return (
@@ -105,8 +126,17 @@ export const Booking = () => {
             <Button
               variant="outline"
               className="bg-sage text-white hover:bg-sage/80 hover:cursor-pointer hover:text-white"
+              onClick={handleConfirmBooking}
+              disabled={isPending}
             >
-              Confirm Booking
+              {isPending ? (
+                <div className="flex flex-row gap-2 items-center">
+                  <Loader2 className="animate-spin" />
+                  <p>Confirming booking...</p>
+                </div>
+              ) : (
+                <p>Confirm Booking</p>
+              )}
             </Button>
             {/* Validation Message */}
             {(!dateRange?.from || !dateRange?.to || bunnies.length === 0) && (
