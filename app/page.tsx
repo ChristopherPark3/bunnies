@@ -1,9 +1,15 @@
+export const metadata: Metadata = {
+  title: "Kim's Bunny Boarding",
+  description: "Feel good knowing your bunny is in good hands.",
+}
+
 import { NavigationBar } from "@/components/general/navigation-bar";
 import { Hero } from "@/components/general/hero";
 import { About } from "@/components/general/about";
 import { Requirements } from "@/components/general/requirements";
 import { Services } from "@/components/general/services";
 import { Contact } from "@/components/general/contact";
+import { Metadata } from "next";
 
 export default function Home() {
   return (
