@@ -38,7 +38,7 @@ export const Requirements = () => {
   ];
 
   return (
-    <section id="requirements" className="py-20 bg-muted/50">
+    <section id="requirements" className="py-20 bg-muted/50 w-full">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">

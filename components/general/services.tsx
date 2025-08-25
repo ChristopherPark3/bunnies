@@ -57,6 +57,11 @@ export const Services = () => {
             and your schedule. All services include premium care in a safe,
             loving environment.
           </p>
+          <p className="text-black font-bold mt-3 mx-auto">
+            Disclaimer: We currently only have 3 separate pens for all clients.
+            If you have multiple bunnies that need to be separated, please
+            inquire about our availability. Pre-booking for holidays is recommended.
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
