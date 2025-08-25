@@ -60,12 +60,10 @@ export const Services = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-          <Image
-            src={`/billy-belinda-vienna.jpeg`}
-            alt="Billy, Belinda, and Vienna"
+          <img
+            src="https://kxxewjaybzjpalexpvew.supabase.co/storage/v1/object/sign/assets/site/ruffles.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NGRjYWQ5Mi1lMjhiLTQ0MDAtYjlhMi00MjVlOTNjYWU1YzEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvc2l0ZS9ydWZmbGVzLmpwZWciLCJpYXQiOjE3NTYwODkwMzUsImV4cCI6NDg3ODE1MzAzNX0.ARTrqLa7kNH2hAei_ZTBkqX9w534diwXcLyE2-7apUw"
+            alt="Ruffles"
             className="rounded-xl"
-            width={500}
-            height={500}
           />
 
           <div className="grid gap-6">

@@ -6,7 +6,8 @@ export const Requirements = () => {
       icon: <Check className="w-6 h-6" />,
       title: "Current Vaccinations",
       description:
-        "Up-to-date RHDV2 vaccination required (within the last 12 months)",
+        "Up-to-date RHDV2 vaccination required (within the last 12 months).",
+      emphasis: "Non RHDV2 vaccinated bunnies only accepted case by case"
     },
     {
       icon: <Heart className="w-6 h-6" />,
@@ -74,6 +75,11 @@ export const Requirements = () => {
                       <p className="text-muted-foreground text-sm">
                         {requirement.description}
                       </p>
+                      {requirement.emphasis && (
+                        <p className="text-muted-foreground text-sm mt-1">
+                          <strong className="text-black">** {requirement.emphasis} **</strong>
+                        </p>
+                      )}
                     </div>
                   </div>
                 ))}

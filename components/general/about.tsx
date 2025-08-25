@@ -77,10 +77,10 @@ export const About = () => {
               <div className="w-16 h-16 bg-sage/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Heart className="w-8 h-8 text-sage" />
               </div>
-              <h3 className="text-xl font-semibold text-warm-brown mb-3">
+              <h3 className="text-xl font-semibold text-warm-brown mb-3 text-center ">
                 Passionate Care
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-center">
                 Every bunny receives individual attention and care tailored to
                 their personality and needs.
               </p>
@@ -90,10 +90,10 @@ export const About = () => {
               <div className="w-16 h-16 bg-sage/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Award className="w-8 h-8 text-sage" />
               </div>
-              <h3 className="text-xl font-semibold text-warm-brown mb-3">
+              <h3 className="text-xl font-semibold text-warm-brown mb-3 text-center ">
                 Veterinary Technician
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-center">
                 Active Veterinary Technician at an emergency veterinary hospital
                 with over 2 years of experience working with exotics.
               </p>
@@ -103,10 +103,10 @@ export const About = () => {
               <div className="w-16 h-16 bg-sage/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <LockKeyhole className="w-8 h-8 text-sage" />
               </div>
-              <h3 className="text-xl font-semibold text-warm-brown mb-3">
+              <h3 className="text-xl font-semibold text-warm-brown mb-3 text-center ">
                 Dedicated Space
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-center">
                 Bunnies have their own space in a dedicated boarding room. Each
                 bunny will have their own kennel with a playpen and their own
                 safe space.
@@ -115,8 +115,7 @@ export const About = () => {
           </div>
         </div>
 
-        {/* Marquee section */}
-        <div className="w-full bg-background py-8">
+        {/* <div className="w-full bg-background py-8">
           <div className="container mx-auto px-4">
             <Marquee>
               <MarqueeFade side="left" />
@@ -136,7 +135,7 @@ export const About = () => {
               </MarqueeContent>
             </Marquee>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
