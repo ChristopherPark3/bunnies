@@ -167,7 +167,7 @@ export const Bunnies = ({
       <div className="flex items-center justify-center gap-2">
         <Button
           onClick={() => setShowAddNewBunny(true)}
-          className="w-fit flex flex-row items-center gap-2 bg-sage text-white hover:bg-sage/80"
+          className=" flex flex-row items-center gap-2 bg-sage text-white hover:bg-sage/80 rounded-xl "
           disabled={bunnies.length >= 3}
         >
           <Plus />

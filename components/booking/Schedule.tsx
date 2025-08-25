@@ -27,10 +27,10 @@ export const Schedule = ({ dateRange, setDateRange }: ScheduleProps) => {
         <Calendar
           mode="range"
           defaultMonth={new Date()}
-          numberOfMonths={2}
+          numberOfMonths={1}
           selected={dateRange}
           onSelect={setDateRange}
-          className="rounded-lg border shadow-sm"
+          className="rounded-lg border shadow-sm w-64 md:w-84"
         />
         <div className="flex flex-row gap-2 w-full justify-between items-center">
           <p className="text-sm text-gray-500 font-medium">

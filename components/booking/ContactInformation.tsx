@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { User, Mail, Phone } from "lucide-react";
@@ -98,7 +97,7 @@ export const ContactInformation = ({
         </p>
       </div>
 
-      <div className="flex flex-col gap-6 w-full">
+      <div className="flex flex-col gap-6 w-full px-8">
         {/* First Name */}
         <div className="space-y-2">
           <Label htmlFor="firstName" className="flex items-center gap-2">

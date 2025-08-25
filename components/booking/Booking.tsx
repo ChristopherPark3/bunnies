@@ -121,7 +121,7 @@ export const Booking = () => {
           </Button>
         </div>
       ) : (
-        <div className="flex flex-row gap-4 border-t border-border pt-4 w-full justify-center">
+        <div className="flex flex-row gap-4 border-t border-border pt-4 w-full justify-center px-8">
           <div className="flex flex-col gap-2">
             <Button
               variant="outline"

@@ -26,7 +26,7 @@ export const AdditionalServices = ({
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 px-8">
       <div className="flex flex-col items-center text-center gap-2">
         <h1 className="text-3xl font-bold text-gray-800 select-none">
           Additional Services
