@@ -25,13 +25,13 @@ export const BookingSuccess = () => {
           duration: 0.6,
           type: "spring",
           stiffness: 100,
-          damping: 15
+          damping: 15,
         }}
       >
         <Card className="w-full max-w-2xl shadow-xl border-0 bg-white/80 backdrop-blur-sm">
           <CardContent className="p-8 text-center">
             {/* Main Heading */}
-            <motion.h1 
+            <motion.h1
               className="text-3xl font-bold text-gray-900 mb-4"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -41,7 +41,7 @@ export const BookingSuccess = () => {
             </motion.h1>
 
             {/* Success Message */}
-            <motion.p 
+            <motion.p
               className="text-lg text-gray-600 mb-6 leading-relaxed"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -53,7 +53,7 @@ export const BookingSuccess = () => {
             </motion.p>
 
             {/* What Happens Next */}
-            <motion.div 
+            <motion.div
               className="bg-blue-50 rounded-lg p-6 mb-6 text-left"
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -80,7 +80,7 @@ export const BookingSuccess = () => {
             </motion.div>
 
             {/* Contact Information */}
-            <motion.div 
+            <motion.div
               className="bg-gray-50 rounded-lg p-6 mb-6"
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -92,17 +92,13 @@ export const BookingSuccess = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center text-sm text-gray-600">
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4" />
-                  <span>Email us at info@bunnyboarding.com</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
-                  <span>Call (555) 123-4567</span>
+                  <span>Email us at kimsbunnyboarding@gmail.com</span>
                 </div>
               </div>
             </motion.div>
 
             {/* Action Buttons */}
-            <motion.div 
+            <motion.div
               className="flex flex-col sm:flex-row gap-3 justify-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -124,7 +120,7 @@ export const BookingSuccess = () => {
             </motion.div>
 
             {/* Thank You Note */}
-            <motion.p 
+            <motion.p
               className="text-sm text-gray-500 mt-6 italic"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
