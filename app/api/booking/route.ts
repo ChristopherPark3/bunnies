@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/utils/prisma";
+import { prisma } from "@/utils/prisma";
 import { Bunny } from "@/lib/types";
 import { resend } from "@/utils/resend";
 
@@ -8,6 +8,14 @@ export async function POST(request: NextRequest) {
   //   if (passedApiKey !== process.env.API_KEY) {
   //     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   //   }
+
+  console.log("Environment check:");
+  console.log("DATABASE_URL exists:", !!process.env.DATABASE_URL);
+  console.log("DATABASE_URL length:", process.env.DATABASE_URL?.length || 0);
+  console.log(
+    "DATABASE_URL starts with:",
+    process.env.DATABASE_URL?.substring(0, 20) || "Not set"
+  );
 
   const body = await request.json();
 
