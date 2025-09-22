@@ -57,11 +57,50 @@ export const Services = () => {
             and your schedule. All services include premium care in a safe,
             loving environment.
           </p>
-          <p className="text-black font-bold mt-3 mx-auto">
-            Disclaimer: We currently only have 3 separate pens for all clients.
-            If you have multiple bunnies that need to be separated, please
-            inquire about our availability. Pre-booking for holidays is recommended.
-          </p>
+
+          {/* Add pricing explanation card */}
+          <div className="max-w-4xl mx-auto my-8">
+            <Card className="bg-sage/10 border-sage/30">
+              <CardHeader>
+                <CardTitle className="text-xl text-warm-brown text-center">
+                  How Our Pricing Works
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-center">
+                <p className="text-base text-gray-700 mb-4">
+                  We charge based on the number of pens your bunnies will
+                  occupy, not just the number of bunnies.
+                </p>
+                <div className="grid md:grid-cols-2 gap-6 text-sm">
+                  <div className="bg-white/50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-warm-brown mb-2">
+                      Bonded Bunnies
+                    </h4>
+                    <p className="text-gray-600">
+                      If you have 2+ bunnies that are bonded and can share a pen
+                      together, you&apos;ll only be charged for one pen (one
+                      price).
+                    </p>
+                  </div>
+                  <div className="bg-white/50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-warm-brown mb-2">
+                      Separate Bunnies
+                    </h4>
+                    <p className="text-gray-600">
+                      If your bunnies aren&apos;t bonded and need separate pens,
+                      you&apos;ll be charged for each pen they occupy.
+                    </p>
+                  </div>
+                </div>
+                <p className="text-black font-bold mt-3 mx-auto">
+                  Disclaimer: We currently only have 3 separate pens for all
+                  clients. If you have multiple bunnies that need to be
+                  separated, please inquire about our availability. Pre-booking
+                  for holidays is recommended.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
