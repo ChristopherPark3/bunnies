@@ -12,6 +12,7 @@ import { AdditionalServices } from "./AdditionalServices";
 import { useRouter } from "next/navigation";
 import { useCreateBooking } from "./hooks/useCreateBooking";
 import { Loader2 } from "lucide-react";
+import { NumberOfPens } from "./NumberOfPens";
 
 /**
  * Root component for the booking process.
@@ -35,6 +36,7 @@ export const Booking = () => {
     nailTrim: false,
     medication: false,
   });
+  const [numberOfPens, setNumberOfPens] = useState(1);
 
   const handleNext = () => {
     setStep(step + 1);
@@ -56,6 +58,7 @@ export const Booking = () => {
       email,
       phoneNumber,
       additionalServices,
+      numberOfPens,
     });
 
     console.log(response);
@@ -82,15 +85,21 @@ export const Booking = () => {
         )}
         {step === 1 && <Bunnies bunnies={bunnies} setBunnies={setBunnies} />}
         {step === 2 && (
-          <Schedule setDateRange={setDateRange} dateRange={dateRange} />
+          <NumberOfPens
+            numberOfPens={numberOfPens}
+            setNumberOfPens={setNumberOfPens}
+          />
         )}
         {step === 3 && (
+          <Schedule setDateRange={setDateRange} dateRange={dateRange} />
+        )}
+        {step === 4 && (
           <AdditionalServices
             additionalServices={additionalServices}
             setAdditionalServices={setAdditionalServices}
           />
         )}
-        {step === 4 && (
+        {step === 5 && (
           <Review
             bunnies={bunnies}
             dateRange={dateRange}
@@ -107,14 +116,14 @@ export const Booking = () => {
           />
         )}
       </div>
-      {step < 4 ? (
+      {step < 5 ? (
         <div className="flex flex-row gap-4 border-t border-border pt-4 w-full justify-center mt-4">
           <Button onClick={handleBack} variant="outline">
             Back
           </Button>
           <Button
             onClick={handleNext}
-            disabled={step === 4}
+            disabled={step === 5}
             className="bg-sage text-white hover:bg-sage/80"
           >
             Next

@@ -16,6 +16,7 @@ export type Booking = {
   email: string;
   phoneNumber: string;
   additionalServices: AdditionalServices;
+  numberOfPens: number;
 };
 
 export type AdditionalServices = {

@@ -119,7 +119,6 @@ export const AddNewBunnyModal = ({
             {isEditing ? `Edit ${bunnyToAdd.name}` : "Add a new bunny"}
           </DialogTitle>
         </DialogHeader>
-
         <div className="flex flex-col gap-1 px-4">
           <Label>Name</Label>
           <Input
