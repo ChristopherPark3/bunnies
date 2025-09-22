@@ -57,7 +57,7 @@ export const NavigationBar = ({ isBooking }: NavigationBarProps) => {
                   onClick={() => {
                     router.push("/booking");
                   }}
-                  className="cursor-pointer"
+                  className="cursor-pointer bg-sage/80 text-background rounded-xl px-5 hover:bg-sage/90"
                 >
                   Book Now
                 </Button>

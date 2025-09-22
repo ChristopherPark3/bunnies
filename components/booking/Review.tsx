@@ -15,6 +15,7 @@ import {
   Phone,
   Scissors,
   Pill,
+  Percent,
 } from "lucide-react";
 
 interface AdditionalServices {
@@ -69,6 +70,10 @@ export const Review = ({
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include both start and end dates
   };
 
+  const isWeekOrLonger = () => {
+    return getTotalDays() >= 7;
+  };
+
   const calculateAdditionalServicesCost = () => {
     let total = 0;
     if (additionalServices.sanitaryShaving) total += 20;
@@ -90,13 +95,20 @@ export const Review = ({
 
   const calculateBaseCost = () => {
     const days = getTotalDays();
-    return days * 25; // Assuming $25 per day per bunny
+    return days * 30; // $30 per day per bunny
+  };
+
+  const calculateDiscountAmount = () => {
+    if (!isWeekOrLonger()) return 0;
+    const baseCost = calculateBaseCost() * bunnies.length;
+    return Math.round(baseCost * 0.15); // 15% discount on base boarding cost only
   };
 
   const calculateTotalCost = () => {
     const baseCost = calculateBaseCost() * bunnies.length;
     const additionalServicesCost = calculateAdditionalServicesCost();
-    return baseCost + additionalServicesCost;
+    const discountAmount = calculateDiscountAmount();
+    return baseCost + additionalServicesCost - discountAmount;
   };
 
   return (
@@ -235,6 +247,14 @@ export const Review = ({
                 <p className="text-sm text-gray-500">Total Days</p>
                 <p className="font-medium text-lg">{getTotalDays()} days</p>
               </div>
+              {isWeekOrLonger() && (
+                <div className="flex items-center justify-center pt-2">
+                  <Badge className="flex items-center gap-1 bg-green-100 text-green-700 text-sm font-medium">
+                    <Percent className="size-3" />
+                    Weekly Discount Applied (15% off boarding)
+                  </Badge>
+                </div>
+              )}
             </div>
           ) : (
             <p className="text-gray-500">No dates selected</p>
@@ -322,6 +342,17 @@ export const Review = ({
                 ${calculateBaseCost() * bunnies.length}
               </span>
             </div>
+
+            {/* Weekly Discount */}
+            {isWeekOrLonger() && (
+              <div className="flex items-center justify-between text-sm text-green-600">
+                <span className="flex items-center gap-1">
+                  <Percent className="size-3" />
+                  Weekly discount (15% off boarding)
+                </span>
+                <span className="font-medium">-${calculateDiscountAmount()}</span>
+              </div>
+            )}
 
             {/* Additional Services Breakdown */}
             {hasAdditionalServices() && (
