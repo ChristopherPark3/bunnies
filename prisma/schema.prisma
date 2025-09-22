@@ -94,3 +94,8 @@ model booking {
   invoice          invoices? @relation(fields: [invoice_id], references: [id])
   review           reviews?  @relation(fields: [review_id], references: [id])
 }
+
+model configuration {
+  id         String   @id @default(cuid())
+  is_under_maintenance Boolean?
+}
