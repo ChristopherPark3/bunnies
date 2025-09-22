@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [isUnderMaintenance, setIsUnderMaintenance] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchIsUnderMaintenance = async () => {
       setIsLoading(true);
