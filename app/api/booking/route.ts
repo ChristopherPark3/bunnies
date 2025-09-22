@@ -231,16 +231,18 @@ export async function POST(request: NextRequest) {
             </div>
 
             <!-- Additional Services -->
-            ${(body.additionalServices.nailTrim || body.additionalServices.sanitaryShaving || body.additionalServices.medication) ? `
             <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #8FBC8F;">
               <h2 style="color: #8B4513; margin: 0 0 15px 0; font-size: 20px;">✨ Additional Services</h2>
+              ${(body.additionalServices.nailTrim || body.additionalServices.sanitaryShaving || body.additionalServices.medication) ? `
               <div style="display: flex; flex-wrap: wrap; gap: 10px;">
                 ${body.additionalServices.nailTrim ? '<span style="background-color: #8FBC8F; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px;">✂️ Nail Trim</span>' : ''}
                 ${body.additionalServices.sanitaryShaving ? '<span style="background-color: #8FBC8F; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px;">✂️ Sanitary Shaving</span>' : ''}
-                ${body.additionalServices.medication ? '<span style="background-color: #8FBC8F; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px;"> Medication</span>' : ''}
+                ${body.additionalServices.medication ? '<span style="background-color: #8FBC8F; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px;">💊 Medication</span>' : ''}
               </div>
+              ` : `
+              <p style="color: #666; margin: 0; font-style: italic;">No additional services requested</p>
+              `}
             </div>
-            ` : ''}
 
             <!-- Footer -->
             <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
