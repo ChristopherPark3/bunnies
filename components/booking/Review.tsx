@@ -362,68 +362,88 @@ export const Review = ({
         </div>
       </div>
 
-      {/* Total Cost Card - Only at the bottom */}
+      {/* Total Cost Card */}
       <div className="w-full">
-        <div className="bg-white rounded-lg border p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            Total Cost
-          </h2>
+        <div className="bg-gradient-to-br from-sage/10 to-sage/5 border-2 border-sage/30 rounded-xl p-6 shadow-lg">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-warm-brown">
+              Booking Summary
+            </h2>
+            <div className="text-right">
+              <p className="text-sm text-gray-600 uppercase tracking-wide font-medium">
+                Total Cost
+              </p>
+              <p className="text-3xl font-bold text-sage mt-1">
+                ${calculateTotalCost()}
+              </p>
+            </div>
+          </div>
 
-          <div className="space-y-3">
-            {/* Base Boarding Cost */}
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">
-                Boarding ({getDailyCost()}/day × {getTotalDays()} days)
-              </span>
-              <span className="font-medium">
-                ${calculateBaseCost()}
-              </span>
+          <div className="space-y-4">
+            {/* Boarding Details */}
+            <div className="bg-white/70 rounded-lg p-4 border border-sage/20">
+              <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+                Boarding Charges
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-700">
+                    {getDailyCost()}/day × {getTotalDays()} days
+                  </span>
+                  <span className="font-semibold text-gray-900">
+                    ${calculateBaseCost()}
+                  </span>
+                </div>
+                {isWeekOrLonger() && (
+                  <div className="flex items-center justify-between text-sm text-green-700 pt-1 border-t border-sage/20">
+                    <span className="flex items-center gap-1">
+                      <Percent className="size-3" />
+                      Weekly discount (15% off)
+                    </span>
+                    <span className="font-semibold">-${calculateDiscountAmount()}</span>
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Weekly Discount */}
-            {isWeekOrLonger() && (
-              <div className="flex items-center justify-between text-sm text-green-600">
-                <span className="flex items-center gap-1">
-                  <Percent className="size-3" />
-                  Weekly discount (15% off boarding)
-                </span>
-                <span className="font-medium">-${calculateDiscountAmount()}</span>
+            {/* Additional Services */}
+            {hasAdditionalServices() && (
+              <div className="bg-white/70 rounded-lg p-4 border border-sage/20">
+                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+                  Additional Services
+                </p>
+                <div className="space-y-2">
+                  {additionalServices.sanitaryShaving && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-700">Sanitary shaving/deshedding</span>
+                      <span className="font-semibold text-gray-900">$20</span>
+                    </div>
+                  )}
+                  {additionalServices.nailTrim && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-700">Nail trim</span>
+                      <span className="font-semibold text-gray-900">$10</span>
+                    </div>
+                  )}
+                  {additionalServices.medication && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-700">
+                        Medication administration ({getTotalDays()} days)
+                      </span>
+                      <span className="font-semibold text-gray-900">${getTotalDays() * 5}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between pt-2 border-t border-sage/20 mt-2">
+                    <span className="text-sm font-semibold text-gray-800">
+                      Additional Services Subtotal
+                    </span>
+                    <span className="text-sm font-bold text-gray-900">
+                      ${calculateAdditionalServicesCost()}
+                    </span>
+                  </div>
+                </div>
               </div>
             )}
-
-            {/* Additional Services Breakdown */}
-            {hasAdditionalServices() && (
-              <>
-                {additionalServices.sanitaryShaving && (
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Sanitary shaving</span>
-                    <span className="font-medium">$20</span>
-                  </div>
-                )}
-                {additionalServices.nailTrim && (
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Nail trim</span>
-                    <span className="font-medium">$10</span>
-                  </div>
-                )}
-                {additionalServices.medication && (
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">
-                      Medication ({getTotalDays()} days)
-                    </span>
-                    <span className="font-medium">${getTotalDays() * 5}</span>
-                  </div>
-                )}
-              </>
-            )}
-
-            {/* Total */}
-            <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-              <span className="font-semibold text-lg text-gray-800">Total</span>
-              <span className="font-bold text-2xl text-sage">
-                ${calculateTotalCost()}
-              </span>
-            </div>
           </div>
         </div>
       </div>

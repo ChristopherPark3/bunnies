@@ -201,9 +201,49 @@ export const BunniesAndKennels = ({
       </div>
 
       {/* Total Price Display */}
-      <div className="bg-sage/10 border border-sage/20 rounded-lg p-4 text-center">
-        <p className="text-sm text-gray-600 mb-1">Estimated daily rate</p>
-        <p className="text-3xl font-bold text-sage">${getTotalPrice()}/day</p>
+      <div className="bg-gradient-to-br from-sage/10 to-sage/5 border-2 border-sage/30 rounded-xl p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <p className="text-sm text-gray-600 uppercase tracking-wide font-medium">
+              Total Daily Rate
+            </p>
+            <p className="text-3xl font-bold text-sage mt-1">
+              ${getTotalPrice()}/day
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm text-gray-600">
+              {bunnies.length} {bunnies.length === 1 ? "bunny" : "bunnies"}
+            </p>
+            <p className="text-sm text-gray-600">
+              in {kennels.length} {kennels.length === 1 ? "kennel" : "kennels"}
+            </p>
+          </div>
+        </div>
+        
+        {/* Breakdown by Kennel */}
+        {kennels.some(k => k.bunnies.length > 0) && (
+          <div className="border-t border-sage/30 pt-4">
+            <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+              Daily Cost Breakdown
+            </p>
+            <div className="space-y-2">
+              {kennels.map((kennel, index) => {
+                if (kennel.bunnies.length === 0) return null;
+                return (
+                  <div key={kennel.id} className="flex items-center justify-between text-sm">
+                    <span className="text-gray-700">
+                      Kennel {index + 1} ({kennel.bunnies.length} {kennel.bunnies.length === 1 ? "bunny" : "bunnies"})
+                    </span>
+                    <span className="font-semibold text-sage">
+                      ${getKennelPrice(kennel.bunnies.length)}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* List of All Bunnies */}
