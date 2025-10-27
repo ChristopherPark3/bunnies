@@ -266,7 +266,7 @@ export const BunniesAndKennels = ({
                       />
                     ) : (
                       <div className="size-16 bg-gray-200 rounded-lg flex items-center justify-center">
-                        <span className="text-gray-400 text-xs">No photo</span>
+                        <span className="text-gray-400 text-xs text-center">No photo</span>
                       </div>
                     )}
                     <div className="flex flex-col flex-1">
@@ -278,16 +278,24 @@ export const BunniesAndKennels = ({
                           <Venus className="text-rose-400 size-4" />
                         )}
                         {isAssigned && (
-                          <Badge className="text-xs bg-green-100 text-green-700">
-                            Assigned to Kennel {kennels.findIndex((k) => k.id === assignedKennel.id) + 1}
+                          <Badge className="text-xs bg-blue-100 text-blue-800 border border-blue-300 font-semibold px-2 py-0.5 rounded-full">
+                            ✓ Kennel {kennels.findIndex((k) => k.id === assignedKennel.id) + 1}
                           </Badge>
                         )}
                       </div>
                       <div className="flex gap-2 mt-1">
-                        <Badge className="text-xs bg-gray-100">
+                        <Badge className={`text-xs font-medium ${
+                          bunny.isVaccinated 
+                            ? "bg-green-100 text-green-800 border border-green-200" 
+                            : "bg-red-100 text-red-800 border border-red-200"
+                        }`}>
                           {bunny.isVaccinated ? "✓ Vaccinated" : "✗ Not Vaccinated"}
                         </Badge>
-                        <Badge className="text-xs bg-gray-100">
+                        <Badge className={`text-xs font-medium ${
+                          bunny.isSpayed 
+                            ? "bg-green-100 text-green-800 border border-green-200" 
+                            : "bg-red-100 text-red-800 border border-red-200"
+                        }`}>
                           {bunny.isSpayed ? "✓ Spayed" : "✗ Not Spayed"}
                         </Badge>
                       </div>
@@ -397,9 +405,9 @@ export const BunniesAndKennels = ({
                               alt={bunny.name}
                               className="size-12 object-cover rounded-lg"
                             />
-                          ) : (
+                            ) : (
                             <div className="size-12 bg-gray-200 rounded-lg flex items-center justify-center">
-                              <span className="text-gray-400 text-xs">No photo</span>
+                              <span className="text-gray-400 text-xs text-center">No photo</span>
                             </div>
                           )}
                           <div>
