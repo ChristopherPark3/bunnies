@@ -69,7 +69,7 @@ export const Review = ({
     const diffTime = Math.abs(
       dateRange.to.getTime() - dateRange.from.getTime()
     );
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include both start and end dates
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24)); // Number of nights (doesn't include checkout day)
   };
 
   const isWeekOrLonger = () => {

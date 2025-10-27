@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/prisma";
-import { Bunny } from "@/lib/types";
+import { Bunny, KennelConfiguration } from "@/lib/types";
 import { resend } from "@/utils/resend";
 
 export async function POST(request: NextRequest) {
@@ -173,7 +173,7 @@ export async function POST(request: NextRequest) {
               <h2 style="color: #8B4513; margin: 0 0 15px 0; font-size: 20px;">🐰 Bunnies Information</h2>
               <div style="display: grid; gap: 12px;">
                 ${body.bunnies
-                  .map((bunny: Bunny, index: number) => `
+                  .map((bunny: Bunny) => `
                     <div style="background-color: #ffffff; padding: 15px; border-radius: 6px; border: 1px solid #e0e0e0;">
                       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                         <h3 style="margin: 0; color: #8B4513; font-size: 16px;">${bunny.name}</h3>
@@ -201,9 +201,42 @@ export async function POST(request: NextRequest) {
               </div>
             </div>
 
+            <!-- Kennel Configuration -->
+            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #8FBC8F;">
+              <h2 style="color: #8B4513; margin: 0 0 15px 0; font-size: 20px;">🏠 Kennel Configuration</h2>
+              <div style="display: grid; gap: 12px;">
+                ${body.kennels
+                  ?.map((kennel: KennelConfiguration, kennelIndex: number) => {
+                    const bunnyCount = kennel.bunnies.length;
+                    let price = 0;
+                    if (bunnyCount === 1) price = 30;
+                    else if (bunnyCount === 2) price = 45;
+                    else if (bunnyCount === 3) price = 55;
+                    
+                    return `
+                      <div style="background-color: #ffffff; padding: 15px; border-radius: 6px; border: 1px solid #e0e0e0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                          <h3 style="margin: 0; color: #8B4513; font-size: 16px;">Kennel ${kennelIndex + 1}</h3>
+                          <span style="background-color: #8FBC8F; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px; font-weight: bold;">
+                            $${price}/day
+                          </span>
+                        </div>
+                        <div style="font-size: 14px; color: #666;">
+                          <strong>Bunnies:</strong> ${kennel.bunnies.map((index: number) => body.bunnies[index]?.name).filter(Boolean).join(', ') || 'Empty'}
+                        </div>
+                        <div style="font-size: 14px; color: #666; margin-top: 4px;">
+                          <strong>Count:</strong> ${bunnyCount} bunny${bunnyCount !== 1 ? 'ies' : ''}
+                        </div>
+                      </div>
+                    `;
+                  })
+                  .join('') || '<p style="color: #666; margin: 0;">No kennel information available</p>'}
+              </div>
+            </div>
+
             <!-- Booking Details -->
             <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #8FBC8F;">
-              <h2 style="color: #8B4513; margin: 0 0 15px 0; font-size: 20px;"> Booking Details</h2>
+              <h2 style="color: #8B4513; margin: 0 0 15px 0; font-size: 20px;">📅 Booking Details</h2>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div>
                   <strong style="color: #555;">Check-in:</strong><br>
@@ -223,10 +256,68 @@ export async function POST(request: NextRequest) {
                     day: 'numeric' 
                   })}</span>
                 </div>
-                <div>
-                  <strong style="color: #555;">Number of Kennels:</strong><br>
-                  <span style="color: #333; font-size: 16px; font-weight: bold;">${body.kennels?.length || 1}</span>
-                </div>
+              </div>
+            </div>
+
+            <!-- Pricing Breakdown -->
+            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #8FBC8F;">
+              <h2 style="color: #8B4513; margin: 0 0 15px 0; font-size: 20px;">💵 Pricing Breakdown</h2>
+              <div style="background-color: #ffffff; padding: 15px; border-radius: 6px; border: 1px solid #e0e0e0;">
+                ${(() => {
+                  const checkIn = new Date(body.dateRange.from);
+                  const checkOut = new Date(body.dateRange.to);
+                  const days = Math.floor((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24)); // Number of nights (doesn't include checkout day)
+                  const dailyRate = body.kennels?.reduce((total: number, kennel: KennelConfiguration) => {
+                    const bunnyCount = kennel.bunnies.length;
+                    let price = 0;
+                    if (bunnyCount === 1) price = 30;
+                    else if (bunnyCount === 2) price = 45;
+                    else if (bunnyCount === 3) price = 55;
+                    return total + price;
+                  }, 0) || 0;
+                  const boardingTotal = dailyRate * days;
+                  const isWeekOrLonger = days >= 7;
+                  const discount = isWeekOrLonger ? Math.round(boardingTotal * 0.15) : 0;
+                  const additionalServicesTotal = 
+                    (body.additionalServices.nailTrim ? 10 : 0) +
+                    (body.additionalServices.sanitaryShaving ? 20 : 0) +
+                    (body.additionalServices.medication ? days * 5 : 0);
+                  const grandTotal = boardingTotal - discount + additionalServicesTotal;
+                  
+                  return `
+                    <div style="margin-bottom: 12px;">
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #666;">Daily Rate</span>
+                        <strong style="color: #333;">$${dailyRate}/day</strong>
+                      </div>
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #666;">Number of Days</span>
+                        <strong style="color: #333;">${days} ${days === 1 ? 'day' : 'days'}</strong>
+                      </div>
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #666;">Boarding Subtotal</span>
+                        <strong style="color: #333;">$${boardingTotal}</strong>
+                      </div>
+                      ${isWeekOrLonger ? `
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #28a745;">
+                        <span>📉 Weekly Discount (15% off)</span>
+                        <strong>-$${discount}</strong>
+                      </div>
+                      ` : ''}
+                      ${additionalServicesTotal > 0 ? `
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px; margin-top: 12px;">
+                        <span style="color: #666;">Additional Services</span>
+                        <strong style="color: #333;">$${additionalServicesTotal}</strong>
+                      </div>
+                      ` : ''}
+                      <div style="border-top: 2px solid #8FBC8F; padding-top: 12px; margin-top: 12px;">
+                        <div style="display: flex; justify-content: space-between;">
+                          <strong style="color: #8B4513; font-size: 18px;">Total Cost</strong>
+                          <strong style="color: #8B4513; font-size: 20px;">$${grandTotal}</strong>
+                        </div>
+                      </div>
+                  `;
+                })()}
               </div>
             </div>
 
@@ -235,9 +326,9 @@ export async function POST(request: NextRequest) {
               <h2 style="color: #8B4513; margin: 0 0 15px 0; font-size: 20px;">✨ Additional Services</h2>
               ${(body.additionalServices.nailTrim || body.additionalServices.sanitaryShaving || body.additionalServices.medication) ? `
               <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                ${body.additionalServices.nailTrim ? '<span style="background-color: #8FBC8F; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px;">✂️ Nail Trim</span>' : ''}
-                ${body.additionalServices.sanitaryShaving ? '<span style="background-color: #8FBC8F; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px;">✂️ Sanitary Shaving</span>' : ''}
-                ${body.additionalServices.medication ? '<span style="background-color: #8FBC8F; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px;">💊 Medication</span>' : ''}
+                ${body.additionalServices.nailTrim ? '<span style="background-color: #8FBC8F; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px;">✂️ Nail Trim ($10)</span>' : ''}
+                ${body.additionalServices.sanitaryShaving ? '<span style="background-color: #8FBC8F; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px;">✂️ Sanitary Shaving ($20)</span>' : ''}
+                ${body.additionalServices.medication ? `<span style="background-color: #8FBC8F; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px;">💊 Medication ($${Math.floor((new Date(body.dateRange.to).getTime() - new Date(body.dateRange.from).getTime()) / (1000 * 60 * 60 * 24))} × $5)</span>` : ''}
               </div>
               ` : `
               <p style="color: #666; margin: 0; font-style: italic;">No additional services requested</p>
