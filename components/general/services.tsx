@@ -5,45 +5,91 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
-export const Services = () => {
-  const [price, setPrice] = useState(30);
-  const [count, setCount] = useState(1);
+const IMAGE_URL =
+  "https://kxxewjaybzjpalexpvew.supabase.co/storage/v1/object/sign/assets/site/ruffles.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NGRjYWQ5Mi1lMjhiLTQ0MDAtYjlhMi00MjVlOTNjYWU1YzEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvc2l0ZS9ydWZmbGVzLmpwZWciLCJpYXQiOjE3NTYwODkwMzUsImV4cCI6NDg3ODE1MzAzNX0.ARTrqLa7kNH2hAei_ZTBkqX9w534diwXcLyE2-7apUw";
 
+interface KennelConfiguration {
+  id: number;
+  bunnyCount: number;
+}
+
+export const Services = () => {
+  const [totalBunnies, setTotalBunnies] = useState(1);
+  const [kennels, setKennels] = useState<KennelConfiguration[]>([
+    { id: 1, bunnyCount: 1 },
+  ]);
+  const [totalPrice, setTotalPrice] = useState(30);
+
+  // Update total bunnies when kennel configurations change
+  useEffect(() => {
+    const total = kennels.reduce((sum, kennel) => sum + kennel.bunnyCount, 0);
+    setTotalBunnies(total);
+  }, [kennels]);
+
+  // Calculate total price based on kennel configurations
   useEffect(() => {
     const calculatePrice = () => {
-      if (count === 2) return 45;
-      if (count === 3) return 55;
-
-      return 30;
+      let total = 0;
+      kennels.forEach((kennel) => {
+        if (kennel.bunnyCount === 1) {
+          total += 30;
+        } else if (kennel.bunnyCount === 2) {
+          total += 45;
+        } else if (kennel.bunnyCount === 3) {
+          total += 55;
+        }
+      });
+      return total;
     };
-    setPrice(calculatePrice());
-  }, [count]);
+    setTotalPrice(calculatePrice());
+  }, [kennels]);
 
-  const incrementCount = () => {
-    setCount((prev) => Math.min(prev + 1, 5)); // Max 5 bunnies
+  const adjustKennelBunnies = (kennelId: number, delta: number) => {
+    setKennels((prev) =>
+      prev.map((kennel) => {
+        if (kennel.id === kennelId) {
+          const newCount = Math.max(1, Math.min(3, kennel.bunnyCount + delta));
+          // Check if adding would exceed max total of 5 bunnies across all kennels
+          const currentTotal = prev.reduce(
+            (sum, k) => sum + k.bunnyCount,
+            0
+          );
+          if (currentTotal - kennel.bunnyCount + newCount > 5) {
+            return kennel; // Don't allow adding if it would exceed max
+          }
+          return { ...kennel, bunnyCount: newCount };
+        }
+        return kennel;
+      })
+    );
   };
 
-  const decrementCount = () => {
-    setCount((prev) => Math.max(prev - 1, 1)); // Min 1 bunny
+  const addKennel = () => {
+    const currentTotal = kennels.reduce(
+      (sum, kennel) => sum + kennel.bunnyCount,
+      0
+    );
+    // Don't allow adding a new kennel if total bunnies would exceed 5
+    if (currentTotal >= 5) return;
+
+    const newKennel: KennelConfiguration = {
+      id: Math.max(...kennels.map((k) => k.id)) + 1,
+      bunnyCount: 1,
+    };
+    setKennels([...kennels, newKennel]);
   };
 
-  const services = [
-    {
-      title: "Boarding",
-      duration: "Single day or multiple days",
-      price: "$30",
-      description:
-        "Care for your bunny while you're away. Includes fresh hay, water, and a safe, clean environment.",
-      features: [
-        "24/7 monitoring",
-        "Safe, dedicated play time",
-        "Emergency care available if needed",
-        "Comfort items welcome",
-        "Hay, greens, and water provided",
-      ],
-      note: "Must provide your own pellets",
-    },
-  ];
+  const removeKennel = (kennelId: number) => {
+    if (kennels.length <= 1) return; // Keep at least one kennel
+    setKennels(kennels.filter((k) => k.id !== kennelId));
+  };
+
+  const getKennelPrice = (bunnyCount: number) => {
+    if (bunnyCount === 1) return 30;
+    if (bunnyCount === 2) return 45;
+    if (bunnyCount === 3) return 55;
+    return 0;
+  };
 
   return (
     <section id="services" className="py-20 bg-sage/20 w-full">
@@ -68,35 +114,40 @@ export const Services = () => {
               </CardHeader>
               <CardContent className="text-center">
                 <p className="text-base text-gray-700 mb-4">
-                  We charge based on the number of pens your bunnies will
-                  occupy, not just the number of bunnies.
+                  We charge based on the number of kennels your bunnies will
+                  occupy and how many bunnies are in each kennel.
                 </p>
-                <div className="grid md:grid-cols-2 gap-6 text-sm">
+                <div className="grid md:grid-cols-3 gap-4 text-sm mb-4">
                   <div className="bg-white/50 p-4 rounded-lg">
                     <h4 className="font-semibold text-warm-brown mb-2">
-                      Bonded Bunnies
+                      1 Bunny = $30/day
                     </h4>
                     <p className="text-gray-600">
-                      If you have 2+ bunnies that are bonded and can share a pen
-                      together, you&apos;ll only be charged for one pen (one
-                      price).
+                      One bunny per kennel
                     </p>
                   </div>
                   <div className="bg-white/50 p-4 rounded-lg">
                     <h4 className="font-semibold text-warm-brown mb-2">
-                      Separate Bunnies
+                      2 Bonded Bunnies = $45/day
                     </h4>
                     <p className="text-gray-600">
-                      If your bunnies aren&apos;t bonded and need separate pens,
-                      you&apos;ll be charged for each pen they occupy.
+                      Two bunnies sharing one kennel
+                    </p>
+                  </div>
+                  <div className="bg-white/50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-warm-brown mb-2">
+                      3 Bonded Bunnies = $55/day
+                    </h4>
+                    <p className="text-gray-600">
+                      Three bunnies sharing one kennel
                     </p>
                   </div>
                 </div>
                 <p className="text-black font-bold mt-3 mx-auto">
-                  Disclaimer: We currently only have 3 separate pens for all
-                  clients. If you have multiple bunnies that need to be
-                  separated, please inquire about our availability. Pre-booking
-                  for holidays is recommended.
+                  <strong>Important:</strong> Maximum 3 bunnies per kennel. 
+                  If your bunnies need separate kennels, you&apos;ll be charged 
+                  per kennel. We currently have 3 kennels available. 
+                  Pre-booking for holidays is recommended.
                 </p>
               </CardContent>
             </Card>
@@ -104,11 +155,13 @@ export const Services = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-          <img
-            src="https://kxxewjaybzjpalexpvew.supabase.co/storage/v1/object/sign/assets/site/ruffles.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NGRjYWQ5Mi1lMjhiLTQ0MDAtYjlhMi00MjVlOTNjYWU1YzEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhc3NldHMvc2l0ZS9ydWZmbGVzLmpwZWciLCJpYXQiOjE3NTYwODkwMzUsImV4cCI6NDg3ODE1MzAzNX0.ARTrqLa7kNH2hAei_ZTBkqX9w534diwXcLyE2-7apUw"
-            alt="Ruffles"
-            className="rounded-xl"
-          />
+          <div className="relative w-full h-full min-h-[400px] rounded-xl overflow-hidden">
+            <img
+              src={IMAGE_URL}
+              alt="Ruffles"
+              className="object-cover rounded-xl"
+            />
+          </div>
 
           <div className="grid gap-6">
             <Card className="gap-2">
@@ -155,46 +208,111 @@ export const Services = () => {
               </CardContent>
             </Card>
             <Card className="gap-2 flex flex-col px-6">
-              <div className="flex justify-between items-start">
-                <CardTitle className="flex gap-4">
-                  <p className="text-xl text-warm-brown">Boarding</p>
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={decrementCount}
-                        disabled={count <= 1}
-                        className="w-8 h-8 p-0"
-                      >
-                        -
-                      </Button>
-                      <span className="w-8 text-center font-medium">
-                        {count}
-                      </span>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={incrementCount}
-                        disabled={count >= 3}
-                        className="w-8 h-8 p-0"
-                      >
-                        +
-                      </Button>
-                    </div>
-                  </div>
+              <div className="flex justify-between items-start mb-4">
+                <CardTitle>
+                  <p className="text-xl text-warm-brown">Boarding Configuration</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Max 5 bunnies, max 3 per kennel
+                  </p>
                 </CardTitle>
                 <div className="flex flex-col items-end">
-                  <p className="text-3xl font-bold text-sage">${price}</p>
+                  <p className="text-3xl font-bold text-sage">${totalPrice}</p>
                   <p className="text-sm text-muted-foreground">per day</p>
-                  {count > 1 && (
-                    <p className="text-xs text-green-600 font-medium">
-                      Discount applied
-                    </p>
-                  )}
                 </div>
               </div>
-              <CardContent className="px-0">
+
+              {/* Kennel configurations */}
+              <div className="space-y-4">
+                {kennels.map((kennel, index) => (
+                  <div
+                    key={kennel.id}
+                    className="border rounded-lg p-4 bg-sage/5"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-warm-brown">
+                          Kennel {index + 1}
+                        </span>
+                        {kennels.length > 1 && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeKennel(kennel.id)}
+                            className="h-6 px-2 text-destructive hover:text-destructive"
+                          >
+                            Remove
+                          </Button>
+                        )}
+                      </div>
+                      <p className="text-sm font-medium text-sage">
+                        ${getKennelPrice(kennel.bunnyCount)}/day
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <span className="text-sm text-muted-foreground">
+                        Bunnies in this kennel:
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => adjustKennelBunnies(kennel.id, -1)}
+                          disabled={kennel.bunnyCount <= 1}
+                          className="w-8 h-8 p-0"
+                        >
+                          -
+                        </Button>
+                        <span className="w-12 text-center font-medium">
+                          {kennel.bunnyCount}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => adjustKennelBunnies(kennel.id, 1)}
+                          disabled={kennel.bunnyCount >= 3}
+                          className="w-8 h-8 p-0"
+                        >
+                          +
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Add kennel button */}
+                <Button
+                  variant="outline"
+                  onClick={addKennel}
+                  disabled={
+                    kennels.reduce(
+                      (sum, kennel) => sum + kennel.bunnyCount,
+                      0
+                    ) >= 5 || kennels.length >= 5
+                  }
+                  className="w-full border-dashed"
+                >
+                  + Add Another Kennel
+                </Button>
+              </div>
+
+              <div className="mt-6 pt-4 border-t">
+                <div className="flex items-center justify-between text-sm mb-3">
+                  <span className="text-muted-foreground">Total bunnies:</span>
+                  <span className="font-medium">{totalBunnies}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm mb-3">
+                  <span className="text-muted-foreground">
+                    Number of kennels:
+                  </span>
+                  <span className="font-medium">{kennels.length}</span>
+                </div>
+              </div>
+
+              <CardContent className="px-0 pt-4 border-t mt-4">
+                <p className="text-sm font-semibold text-warm-brown mb-2">
+                  Includes:
+                </p>
                 <ul className="space-y-2">
                   <li className="flex items-center text-sm">
                     <div className="w-2 h-2 bg-sage rounded-full mr-3" />

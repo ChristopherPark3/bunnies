@@ -48,7 +48,7 @@ export default function RootLayout({
                 <Loader2 className="size-6 animate-spin" />
               </div>
             </div>
-          ) : isUnderMaintenance ? (
+          ) : isUnderMaintenance && process.env.NODE_ENV === "production" ? (
             <Maintenance />
           ) : (
             children
