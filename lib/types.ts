@@ -8,6 +8,11 @@ export type Bunny = {
   picture?: string;
 };
 
+export type KennelConfiguration = {
+  id: number;
+  bunnies: number[];
+};
+
 export type Booking = {
   bunnies: Bunny[];
   dateRange: DateRange | undefined;
@@ -16,7 +21,7 @@ export type Booking = {
   email: string;
   phoneNumber: string;
   additionalServices: AdditionalServices;
-  numberOfPens: number;
+  kennels: KennelConfiguration[];
 };
 
 export type AdditionalServices = {

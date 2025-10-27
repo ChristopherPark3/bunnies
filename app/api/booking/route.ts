@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
         sanitary_shaving: body.additionalServices.sanitaryShaving,
         medication: body.additionalServices.medication,
         bunny_id: createdBunnies[0].id, // Assuming one bunny per booking for now
-        number_of_pens: body.numberOfPens || 1,
+        number_of_pens: body.kennels?.length || 1,
       },
     });
 
@@ -224,8 +224,8 @@ export async function POST(request: NextRequest) {
                   })}</span>
                 </div>
                 <div>
-                  <strong style="color: #555;">Number of Pens:</strong><br>
-                  <span style="color: #333; font-size: 16px; font-weight: bold;">${body.numberOfPens}</span>
+                  <strong style="color: #555;">Number of Kennels:</strong><br>
+                  <span style="color: #333; font-size: 16px; font-weight: bold;">${body.kennels?.length || 1}</span>
                 </div>
               </div>
             </div>

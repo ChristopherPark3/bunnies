@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Bunnies } from "./Bunnies";
+import { BunniesAndKennels } from "./BunniesAndKennels";
 import { Schedule } from "./Schedule";
 import { Button } from "../ui/button";
-import { Bunny } from "@/lib/types";
+import { Bunny, KennelConfiguration } from "@/lib/types";
 import { Review } from "./Review";
 import { DateRange } from "react-day-picker";
 import { ContactInformation } from "./ContactInformation";
@@ -12,7 +12,6 @@ import { AdditionalServices } from "./AdditionalServices";
 import { useRouter } from "next/navigation";
 import { useCreateBooking } from "./hooks/useCreateBooking";
 import { Loader2 } from "lucide-react";
-import { NumberOfPens } from "./NumberOfPens";
 
 /**
  * Root component for the booking process.
@@ -26,6 +25,7 @@ export const Booking = () => {
 
   const [step, setStep] = useState(0);
   const [bunnies, setBunnies] = useState<Bunny[]>([]);
+  const [kennels, setKennels] = useState<KennelConfiguration[]>([{ id: 1, bunnies: [] }]);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -36,9 +36,13 @@ export const Booking = () => {
     nailTrim: false,
     medication: false,
   });
-  const [numberOfPens, setNumberOfPens] = useState(1);
 
   const handleNext = () => {
+    // Validation: At least one bunny must be added
+    if (step === 1 && bunnies.length === 0) {
+      alert("Please add at least one bunny before proceeding.");
+      return;
+    }
     setStep(step + 1);
   };
 
@@ -58,10 +62,8 @@ export const Booking = () => {
       email,
       phoneNumber,
       additionalServices,
-      numberOfPens,
+      kennels,
     });
-
-    console.log(response);
 
     if (response.status === 200) {
       router.push("/booking/success");
@@ -83,25 +85,27 @@ export const Booking = () => {
             setPhoneNumber={setPhoneNumber}
           />
         )}
-        {step === 1 && <Bunnies bunnies={bunnies} setBunnies={setBunnies} />}
-        {step === 2 && (
-          <NumberOfPens
-            numberOfPens={numberOfPens}
-            setNumberOfPens={setNumberOfPens}
+        {step === 1 && (
+          <BunniesAndKennels
+            bunnies={bunnies}
+            setBunnies={setBunnies}
+            kennels={kennels}
+            setKennels={setKennels}
           />
         )}
-        {step === 3 && (
+        {step === 2 && (
           <Schedule setDateRange={setDateRange} dateRange={dateRange} />
         )}
-        {step === 4 && (
+        {step === 3 && (
           <AdditionalServices
             additionalServices={additionalServices}
             setAdditionalServices={setAdditionalServices}
           />
         )}
-        {step === 5 && (
+        {step === 4 && (
           <Review
             bunnies={bunnies}
+            kennels={kennels}
             dateRange={dateRange}
             onEditBunnies={() => setStep(1)}
             onEditSchedule={() => setStep(2)}
@@ -116,14 +120,14 @@ export const Booking = () => {
           />
         )}
       </div>
-      {step < 5 ? (
+      {step < 4 ? (
         <div className="flex flex-row gap-4 border-t border-border pt-4 w-full justify-center mt-4">
           <Button onClick={handleBack} variant="outline">
             Back
           </Button>
           <Button
             onClick={handleNext}
-            disabled={step === 5}
+            disabled={step === 4}
             className="bg-sage text-white hover:bg-sage/80"
           >
             Next

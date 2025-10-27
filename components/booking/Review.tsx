@@ -1,6 +1,6 @@
 "use client";
 
-import { Bunny } from "@/lib/types";
+import { Bunny, KennelConfiguration } from "@/lib/types";
 import { DateRange } from "react-day-picker";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -26,6 +26,7 @@ interface AdditionalServices {
 
 interface ReviewProps {
   bunnies: Bunny[];
+  kennels: KennelConfiguration[];
   dateRange: DateRange | undefined;
   firstName: string;
   lastName: string;
@@ -41,6 +42,7 @@ interface ReviewProps {
 
 export const Review = ({
   bunnies,
+  kennels,
   dateRange,
   firstName,
   lastName,
@@ -95,20 +97,56 @@ export const Review = ({
 
   const calculateBaseCost = () => {
     const days = getTotalDays();
-    return days * 30; // $30 per day per bunny
+    
+    // Calculate price per kennel based on bunny count
+    const getKennelPrice = (bunnyCount: number) => {
+      if (bunnyCount === 1) return 30;
+      if (bunnyCount === 2) return 45;
+      if (bunnyCount === 3) return 55;
+      return 0;
+    };
+    
+    const dailyCost = kennels.reduce((total, kennel) => {
+      return total + getKennelPrice(kennel.bunnies.length);
+    }, 0);
+    
+    return dailyCost * days;
   };
 
   const calculateDiscountAmount = () => {
     if (!isWeekOrLonger()) return 0;
-    const baseCost = calculateBaseCost() * bunnies.length;
+    const dailyCost = kennels.reduce((total, kennel) => {
+      const getKennelPrice = (bunnyCount: number) => {
+        if (bunnyCount === 1) return 30;
+        if (bunnyCount === 2) return 45;
+        if (bunnyCount === 3) return 55;
+        return 0;
+      };
+      return total + getKennelPrice(kennel.bunnies.length);
+    }, 0);
+    
+    const baseCost = dailyCost * getTotalDays();
     return Math.round(baseCost * 0.15); // 15% discount on base boarding cost only
   };
 
   const calculateTotalCost = () => {
-    const baseCost = calculateBaseCost() * bunnies.length;
+    const baseCost = calculateBaseCost();
     const additionalServicesCost = calculateAdditionalServicesCost();
     const discountAmount = calculateDiscountAmount();
     return baseCost + additionalServicesCost - discountAmount;
+  };
+  
+  const getDailyCost = () => {
+    const getKennelPrice = (bunnyCount: number) => {
+      if (bunnyCount === 1) return 30;
+      if (bunnyCount === 2) return 45;
+      if (bunnyCount === 3) return 55;
+      return 0;
+    };
+    
+    return kennels.reduce((total, kennel) => {
+      return total + getKennelPrice(kennel.bunnies.length);
+    }, 0);
   };
 
   return (
@@ -166,7 +204,7 @@ export const Review = ({
         <div className="bg-white rounded-lg border p-6 shadow-sm mb-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-gray-800">
-              Bunnies ({bunnies.length})
+              Bunnies ({bunnies.length}) in {kennels.length} kennel{kennels.length !== 1 ? "s" : ""}
             </h2>
             <Button variant="outline" size="sm" onClick={onEditBunnies}>
               Edit
@@ -335,11 +373,10 @@ export const Review = ({
             {/* Base Boarding Cost */}
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-600">
-                Boarding ({bunnies.length} bunny
-                {bunnies.length !== 1 ? "ies" : ""} × {getTotalDays()} days)
+                Boarding ({getDailyCost()}/day × {getTotalDays()} days)
               </span>
               <span className="font-medium">
-                ${calculateBaseCost() * bunnies.length}
+                ${calculateBaseCost()}
               </span>
             </div>
 
