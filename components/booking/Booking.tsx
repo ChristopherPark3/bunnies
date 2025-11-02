@@ -55,7 +55,13 @@ export const Booking = () => {
 
   const handleConfirmBooking = async () => {
     const response = await createBooking({
-      bunnies,
+      bunnies: bunnies.map((bunny) => ({
+        name: bunny.name,
+        isVaccinated: bunny.isVaccinated,
+        isSpayed: bunny.isSpayed,
+        isMale: bunny.isMale,
+        // picture: bunny.picture, // TODO: Add picture back in. Need to find a better way. Probably upload to Supabase in a separate call and then attach the url here.
+      })),
       dateRange,
       firstName,
       lastName,
